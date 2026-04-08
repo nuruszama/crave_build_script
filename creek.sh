@@ -26,6 +26,7 @@ crave run --projectID 93 --no-patch -- '
     device/xiaomi/creek
     vendor/xiaomi/creek
     vendor/xiaomi/miuicamera
+    hardware/interfaces
     hardware/xiaomi
     out/target/product/creek
   )
