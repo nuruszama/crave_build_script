@@ -90,12 +90,13 @@ crave run --projectID 93 --no-patch -- '
   echo "=============================================="
   mka bacon'
 
+# 4. Capture the exit status immediately
+EXIT_STATUS=$?
+echo "EXIT_STATUS = $EXIT_STATUS"
+
 echo "=============================================="
 echo "             Winding up the Party"
 echo "=============================================="
-
-# 4. Capture the exit status immediately
-EXIT_STATUS=$?
 
 # 5. Post-Build Logic (Local Machine)
 if [ $EXIT_STATUS -eq 0 ]; then
@@ -131,7 +132,7 @@ FIRST_LINE=$(head -n 1 "$TMP_LOG")
 BUILD_ID=$(echo "$FIRST_LINE" | grep -oP 'build id:\K[0-9]+')
 
 if [ -n "$BUILD_ID" ]; then
-    LOG_FILE="Build-log-$BUILD_ID.txt"
+    LOG_FILE="Build-$BUILD_ID-log.txt"
     mv "$TMP_LOG" "$LOG_FILE"
 else
     LOG_FILE="$TMP_LOG"
