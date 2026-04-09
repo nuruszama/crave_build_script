@@ -1,6 +1,7 @@
 #!/bin/bash
 # Load your local secrets
 source .env
+rm -rf post-log.txt
 
 # 1. Local Queue Notification
 echo "[$(date +%T)] Sending Telegram Notification..."
