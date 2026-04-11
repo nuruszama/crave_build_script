@@ -30,6 +30,7 @@ crave run --projectID 93 --no-patch -- '
     hardware/interfaces
     hardware/xiaomi
     out/target/product/creek
+    hardware/qcom-caf/common
   )
 
   # Efficiently remove all of them
