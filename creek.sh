@@ -7,9 +7,8 @@ rm -rf post-log.txt
 echo "[$(date +%T)] Sending Telegram Notification..."
 curl -s -o /dev/null -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
   -d chat_id="${TG_CHAT}" \
-  -d message_thread_id="${TG_TOPIC}" \
   -d parse_mode="HTML" \
-  -d text="🛠 <b>Build Queued :</b> 📥 Waiting for Container%0A           (device_codename: <code>creek</code>)"
+  -d text="🛠 <b>Build Queued</b>"
 
 # 2. Capture all output to log
 TMP_LOG="creek-build-log.txt"
@@ -107,21 +106,21 @@ if [ $EXIT_STATUS -eq 0 ]; then
     # SUCCESS
     echo "Build Completed.. zip file ready to download......."
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
-        -d chat_id="$TG_CHAT" -d message_thread_id="$TG_TOPIC" -d parse_mode="HTML" \
+        -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
         -d text="✅ <b>Build Success!</b>%0A📦</code>"
 
 elif [ $EXIT_STATUS -eq 130 ]; then
     # CANCELLED BY USER
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
-        -d chat_id="$TG_CHAT" -d message_thread_id="$TG_TOPIC" -d parse_mode="HTML" \
+        -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
         -d text="⚠️ <b>Build Cancelled:</b> User terminated the process manually."
 
 else
     # FAILED DUE TO ERROR
     echo ">>Build Failed"
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
-        -d chat_id="$TG_CHAT" -d message_thread_id="$TG_TOPIC" -d parse_mode="HTML" \
-        -d text="❌ <b>Build Failed (Error $EXIT_STATUS):</b> Check the log....."
+        -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
+        -d text="<b>Build Failed (Error $EXIT_STATUS):</b> Check the log....."
 fi
 
 # 6. Stop logging and rename the file.
