@@ -120,7 +120,7 @@ else
     echo ">>Build Failed"
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
         -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
-        -d text="<b>Build Failed (Error $EXIT_STATUS):</b> Check the log....."
+        -d text="<b>Build Failed (Error $EXIT_STATUS)</b>"
 fi
 
 # 6. Stop logging and rename the file.
