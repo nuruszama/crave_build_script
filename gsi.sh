@@ -48,6 +48,4 @@ crave run --projectID 93 --no-patch -- '
   breakfast lineage_arm64_bgNE-bp2a-userdebug
 
   # Build only system
-  make systemimage -j$(nproc --all)
-
-  mka bacon'
+  make systemimage -j$(nproc --all)'
