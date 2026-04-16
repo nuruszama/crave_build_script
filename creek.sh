@@ -15,7 +15,7 @@ TMP_LOG="creek-build-log.txt"
 exec > >(tee -a "$TMP_LOG") 2>&1
 
 # 3. The Crave Run Command
-crave run --projectID 93 --no-patch --clean -- '
+crave run --projectID 93 --no-patch -- '
   echo "============================================"
   echo "             Removing Sheets"
   echo "============================================"
