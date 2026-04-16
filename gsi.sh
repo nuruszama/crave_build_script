@@ -28,17 +28,26 @@ crave run --projectID 93 --no-patch -- '
   
   # Sync the repositories
   /opt/crave/resync.sh
-
+  
   # Apply GSI patches
-  bash LineageOS_gsi/patches/apply-patches.sh
+  if [ -d "LineageOS_gsi" ]; then
+      bash LineageOS_gsi/patches/apply-patches.sh
+  fi
   
   # Set up build environment
   source build/envsetup.sh
+
+  # Lunch (The GSI Choice)
+  # arm64 = Architecture
+  # b = AB partition (Standard for SM6225)
+  # g = GApps included (if target supports it)
+  # N = No VNDK enforcement (allows older vendor to work)
+  # // lunch lineage_arm64_bgNE-bp2a-userdebug
   
   # Breakfast
   breakfast lineage_arm64_bgNE-bp2a-userdebug
 
   # Build only system
-  make systemimage
+  make systemimage -j$(nproc --all)
 
   mka bacon'
