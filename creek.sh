@@ -29,9 +29,7 @@ crave run --projectID 93 --no-patch -- '
     vendor/xiaomi/miuicamera
     hardware/interfaces
     hardware/xiaomi
-    out/target/product/creek
     hardware/qcom-caf/common
-    hardware/qcom-caf/sm8250
   )
 
   # Efficiently remove all of them
