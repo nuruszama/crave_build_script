@@ -29,7 +29,7 @@ crave run --projectID 93 --no-patch -- '
     vendor/xiaomi/miuicamera
     hardware/interfaces
     hardware/xiaomi
-    hardware/qcom-caf
+    hardware/qcom-caf/*
   )
 
   # Efficiently remove all of them
