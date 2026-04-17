@@ -72,14 +72,25 @@ crave run --projectID 93 --no-patch -- '
       echo "     Exported: $entry"
   done
 
-  # applying patches
-  echo "Applying hardware family patches..."
-  if patch -p1 < device/xiaomi/creek/patches/qcom_defs.patch; then
-      echo "[+] Patch applied successfully."
+  # applying patches via sed (more reliable than .patch files)
+  echo "Applying hardware family fixes..."
+  FILE="hardware/qcom-caf/common/qcom_defs.mk"
+  
+  if [ -f "$FILE" ]; then
+      # 1. Remove bengal from 4.19 family
+      sed -i 's/UM_4_19_FAMILY := kona lito bengal/UM_4_19_FAMILY := kona lito/g' "$FILE"
+      
+      # 2. Add bengal to 5.15 family
+      sed -i 's/UM_5_15_FAMILY := kalama crow/UM_5_15_FAMILY := kalama crow bengal/g' "$FILE"
+      
+      echo "[+] hardware/qcom-caf/common logic updated successfully."
   else
-      echo "[-] Patch failed! Check if paths in the patch match the source."
+      echo "[-] Error: $FILE not found!"
       exit 1
   fi
+
+  # checking whether patch worked.
+  grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
   
   # Set up build environment
   source build/envsetup.sh
