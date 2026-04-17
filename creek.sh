@@ -22,7 +22,8 @@ crave run --projectID 93 --no-patch -- '
 
   # List the specific folders that cause issues for creek
   remove=(
-    out/
+    out//soong
+    out/target/product/creek
     device/xiaomi/creek
     vendor/xiaomi/creek
     vendor/xiaomi/miuicamera
