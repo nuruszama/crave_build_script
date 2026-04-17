@@ -95,9 +95,6 @@ crave run --projectID 93 --no-patch -- '
       echo "[-] Patch file not found at $PATCH_FILE"
       exit 1
   fi
-
-  # checking whether patch worked.
-  grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
   
   # Set up build environment
   source build/envsetup.sh
