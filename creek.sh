@@ -72,23 +72,24 @@ crave run --projectID 93 --no-patch -- '
       echo "     Exported: $entry"
   done
 
-  # applying patches via sed
-  echo "Applying hardware family fixes..."
-  FILE="hardware/qcom-caf/common/qcom_defs.mk"
+  # applying patches
+  echo "Applying hardware family patches..."
+  PATCH_FILE="device/xiaomi/creek/patches/qcom_defs.patch"
   
-  if [ -f "$FILE" ]; then
-      # 1. Remove bengal from 4.19
-      sed -i 's|UM_4_19_FAMILY := kona lito bengal|UM_4_19_FAMILY := kona lito|g' "$FILE"
-      
-      # 2. Add bengal to 5.15
-      sed -i 's|UM_5_15_FAMILY := kalama crow|UM_5_15_FAMILY := kalama crow bengal|g' "$FILE"
-      
-      echo "--------------------------------------------"
-      echo " Verification of hardware family changes:"
-      grep -E "UM_4_19_FAMILY|UM_5_15_FAMILY" "$FILE"
-      echo "--------------------------------------------"
+  if [ -f "$PATCH_FILE" ]; then
+      # -p1: strip one directory level
+      # --fuzz=3: allow the line numbers to be off by up to 3 lines
+      # --ignore-whitespace: ignore tabs vs spaces issues
+      if patch -p1 --fuzz=3 --ignore-whitespace < "$PATCH_FILE"; then
+          echo "[+] Patch applied successfully."
+          echo "Verification:"
+          grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
+      else
+          echo "[-] Patch failed! Check the .rej file in hardware/qcom-caf/common/"
+          exit 1
+      fi
   else
-      echo "[-] Error: $FILE not found!"
+      echo "[-] Patch file not found at $PATCH_FILE"
       exit 1
   fi
 
