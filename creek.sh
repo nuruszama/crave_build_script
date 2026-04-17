@@ -85,7 +85,10 @@ crave run --projectID 93 --no-patch -- '
           echo "Verification:"
           grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
       else
-          echo "[-] Patch failed! Check the .rej file in hardware/qcom-caf/common/"
+          echo "[-] Patch failed!Dumping rejection details below:"
+          echo "================================================="
+          find hardware/qcom-caf/common/ -name "*.rej" -exec cat {} +
+          echo "================================================="
           exit 1
       fi
   else
