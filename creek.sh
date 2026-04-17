@@ -72,18 +72,21 @@ crave run --projectID 93 --no-patch -- '
       echo "     Exported: $entry"
   done
 
-  # applying patches via sed (more reliable than .patch files)
+  # applying patches via sed
   echo "Applying hardware family fixes..."
   FILE="hardware/qcom-caf/common/qcom_defs.mk"
   
   if [ -f "$FILE" ]; then
-      # 1. Remove bengal from 4.19 family
-      sed -i 's/UM_4_19_FAMILY := kona lito bengal/UM_4_19_FAMILY := kona lito/g' "$FILE"
+      # 1. Remove bengal from 4.19
+      sed -i 's|UM_4_19_FAMILY := kona lito bengal|UM_4_19_FAMILY := kona lito|g' "$FILE"
       
-      # 2. Add bengal to 5.15 family
-      sed -i 's/UM_5_15_FAMILY := kalama crow/UM_5_15_FAMILY := kalama crow bengal/g' "$FILE"
+      # 2. Add bengal to 5.15
+      sed -i 's|UM_5_15_FAMILY := kalama crow|UM_5_15_FAMILY := kalama crow bengal|g' "$FILE"
       
-      echo "[+] hardware/qcom-caf/common logic updated successfully."
+      echo "--------------------------------------------"
+      echo " Verification of hardware family changes:"
+      grep -E "UM_4_19_FAMILY|UM_5_15_FAMILY" "$FILE"
+      echo "--------------------------------------------"
   else
       echo "[-] Error: $FILE not found!"
       exit 1
