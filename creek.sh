@@ -22,13 +22,10 @@ crave run --projectID 93 --no-patch -- '
 
   # List the specific folders that cause issues for creek
   remove=(
-    out/soong
-    out/target/product/creek
+    out/
     device/xiaomi/creek
     vendor/xiaomi/creek
     vendor/xiaomi/miuicamera
-    hardware/interfaces
-    hardware/xiaomi
   )
 
   # Efficiently remove all of them
@@ -74,8 +71,18 @@ crave run --projectID 93 --no-patch -- '
       echo "     Exported: $entry"
   done
 
+  # applying patches
+  echo "Applying hardware family patches..."
+  if patch -p1 < device/xiaomi/creek/patches/qcom_defs.patch; then
+      echo "[+] Patch applied successfully."
+  else
+      echo "[-] Patch failed! Check if paths in the patch match the source."
+      exit 1
+  fi
+  
   # Set up build environment
   source build/envsetup.sh
+  
   echo "=============================================="
   echo "             Placing Lunch Menu"
   echo "=============================================="
