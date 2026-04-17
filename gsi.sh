@@ -21,7 +21,7 @@ crave run --projectID 93 --no-patch -- '
   rm -rf .repo/local_manifests/
   
   # ROM source repo
-  repo init -u https://github.com/LineageOS/android.git -b lineage-23.0 --git-lfs
+  repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
   
   # Clone local_manifests repository
   git clone https://github.com/MisterZtr/treble_manifest.git .repo/local_manifests -b lineage-23.0
@@ -30,9 +30,9 @@ crave run --projectID 93 --no-patch -- '
   /opt/crave/resync.sh
   
   # Apply GSI patches
-  if [ -d "LineageOS_gsi" ]; then
-      bash LineageOS_gsi/patches/apply-patches.sh
-  fi
+  # if [ -d "LineageOS_gsi" ]; then
+  #     bash LineageOS_gsi/patches/apply-patches.sh
+  # fi
   
   # Set up build environment
   source build/envsetup.sh
