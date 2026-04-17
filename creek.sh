@@ -61,17 +61,6 @@ crave run --projectID 93 --no-patch -- '
   echo "              Preparing Tables"
   echo "=============================================="
 
-  # List the specific folders that cause issues for creek
-  remove=(
-    hardware/qcom-caf/sm8250
-  )
-
-  # Efficiently remove all of them
-  for folder in "${remove[@]}"; do
-      rm -rf "$folder"
-      echo "    Removed: $folder"
-  done
-
   # List the environment variables required for thr creek build
   exports=(
      "AIDL_FROZEN_REL=false"
