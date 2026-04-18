@@ -73,28 +73,10 @@ crave run --projectID 93 --no-patch -- '
   done
 
   # applying patches
-  echo "Applying hardware family patches..."
-  PATCH_FILE="device/xiaomi/creek/patches/qcom_defs.patch"
-  
-  if [ -f "$PATCH_FILE" ]; then
-      # -p1: strip one directory level
-      # --fuzz=3: allow the line numbers to be off by up to 3 lines
-      # --ignore-whitespace: ignore tabs vs spaces issues
-      if patch -p1 --fuzz=3 --ignore-whitespace < "$PATCH_FILE"; then
-          echo "[+] Patch applied successfully."
-          echo "Verification:"
-          grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
-      else
-          echo "[-] Patch failed!Dumping rejection details below:"
-          echo "================================================="
-          find hardware/qcom-caf/common/ -name "*.rej" -exec cat {} +
-          echo "================================================="
-          exit 1
-      fi
-  else
-      echo "[-] Patch file not found at $PATCH_FILE"
-      exit 1
-  fi
+  echo "Checking hardware family..."
+  echo "================================================="
+  grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
+  echo "================================================="
   
   # Set up build environment
   source build/envsetup.sh
