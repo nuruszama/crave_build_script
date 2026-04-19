@@ -76,22 +76,22 @@ crave run --projectID 93 --no-patch -- '
   PATCH_DIR="device/xiaomi/creek/patches"
   
   if [ -d "$PATCH_DIR" ]; then
-      echo "Scanning for patches in $PATCH_DIR..."
+      echo "=============================================="
+      echo "           Seasoning the Source"
+      echo "=============================================="
       
-      # Loop through all .patch files in the directory
-      for patch in "$PATCH_DIR"/*.patch; do
-          # Check if the glob found actual files
-          [ -e "$patch" ] || continue
-          
+      # Use a sorted list of patches
+      for patch in $(ls "$PATCH_DIR"/*.patch 2>/dev/null | sort); do
           echo "Applying: $(basename "$patch")"
 
-          # Determine the target directory based on the patch name
-          # OR just apply from the root if the patch has the full path
+          # -p1: strip the "a/" prefix
+          # --fuzz=3: ignore minor line number shifts
+          # -s: silent unless there's an error
           if patch -p1 --fuzz=3 --ignore-whitespace < "$patch"; then
               echo "[+] $(basename "$patch") applied successfully."
           else
               echo "[-] $(basename "$patch") FAILED!"
-              # Optional: Find and show rejections
+              echo "Showing rejection (.rej) files:"
               find . -name "*.rej" -exec cat {} +
               exit 1
           fi
@@ -99,8 +99,7 @@ crave run --projectID 93 --no-patch -- '
   else
       echo "[-] No patch directory found at $PATCH_DIR. Skipping."
   fi
-
-
+  
   # Set up build environment
   source build/envsetup.sh
   
