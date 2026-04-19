@@ -82,10 +82,6 @@ crave run --projectID 93 --no-patch -- '
       # --ignore-whitespace: ignore tabs vs spaces issues
       if patch -p1 --fuzz=3 --ignore-whitespace < "$PATCH_FILE"; then
           echo "[+] Patch applied successfully."
-          echo "Verification:"
-          echo "================================================="
-          grep "bengal" hardware/qcom-caf/common/qcom_defs.mk
-          echo "================================================="
       else
           echo "[-] Patch failed!Dumping rejection details below:"
           echo "================================================="
