@@ -80,22 +80,22 @@ crave run --projectID 93 --no-patch -- '
       echo "           Seasoning the Source"
       echo "=============================================="
       
-      # Use a sorted list of patches
-      for patch in $(ls "$PATCH_DIR"/*.patch 2>/dev/null | sort); do
-          echo "Applying: $(basename "$patch")"
+      # Find the patches and pipe them into a while loop 
+      find "$PATCH_DIR" -maxdepth 1 -name "*.patch" | sort | while read -r patch_file; do
+          patch_name=$(basename "$patch_file")
+          echo "Applying: $patch_name"
 
-          # -p1: strip the "a/" prefix
-          # --fuzz=3: ignore minor line number shifts
-          # -s: silent unless there's an error
-          if patch -p1 --fuzz=3 --ignore-whitespace < "$patch"; then
-              echo "[+] $(basename "$patch") applied successfully."
+          if patch -p1 --fuzz=3 --ignore-whitespace < "$patch_file"; then
+              echo "[+] $patch_name applied successfully."
           else
-              echo "[-] $(basename "$patch") FAILED!"
+              echo "[-] $patch_name FAILED!"
               echo "Showing rejection (.rej) files:"
               find . -name "*.rej" -exec cat {} +
               exit 1
           fi
       done
+      # Check if the loop exited with an error
+      if [ $? -ne 0 ]; then exit 1; fi
   else
       echo "[-] No patch directory found at $PATCH_DIR. Skipping."
   fi
@@ -132,7 +132,7 @@ if [ $EXIT_STATUS -eq 0 ]; then
     echo "Build Completed.. zip file ready to download......."
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
         -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
-        -d text="✅ <b>Build Success!</b>%0A📦</code>"
+        -d text="✅ <b>Build Success!</b>%0A📦"
 
 elif [ $EXIT_STATUS -eq 130 ]; then
     # CANCELLED BY USER
