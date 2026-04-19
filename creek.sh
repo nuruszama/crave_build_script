@@ -73,26 +73,33 @@ crave run --projectID 93 --no-patch -- '
   done
   
   # applying patches
-  echo "Applying hardware family patches..."
-  PATCH_FILE="device/xiaomi/creek/patches/qcom_defs.patch"
+  PATCH_DIR="device/xiaomi/creek/patches"
   
-  if [ -f "$PATCH_FILE" ]; then
-      # -p1: strip one directory level
-      # --fuzz=3: allow the line numbers to be off by up to 3 lines
-      # --ignore-whitespace: ignore tabs vs spaces issues
-      if patch -p1 --fuzz=3 --ignore-whitespace < "$PATCH_FILE"; then
-          echo "[+] Patch applied successfully."
-      else
-          echo "[-] Patch failed!Dumping rejection details below:"
-          echo "================================================="
-          find hardware/qcom-caf/common/ -name "*.rej" -exec cat {} +
-          echo "================================================="
-          exit 1
-      fi
+  if [ -d "$PATCH_DIR" ]; then
+      echo "Scanning for patches in $PATCH_DIR..."
+      
+      # Loop through all .patch files in the directory
+      for patch in "$PATCH_DIR"/*.patch; do
+          # Check if the glob found actual files
+          [ -e "$patch" ] || continue
+          
+          echo "Applying: $(basename "$patch")"
+
+          # Determine the target directory based on the patch name
+          # OR just apply from the root if the patch has the full path
+          if patch -p1 --fuzz=3 --ignore-whitespace < "$patch"; then
+              echo "[+] $(basename "$patch") applied successfully."
+          else
+              echo "[-] $(basename "$patch") FAILED!"
+              # Optional: Find and show rejections
+              find . -name "*.rej" -exec cat {} +
+              exit 1
+          fi
+      done
   else
-      echo "[-] Patch file not found at $PATCH_FILE"
-      exit 1
+      echo "[-] No patch directory found at $PATCH_DIR. Skipping."
   fi
+
 
   # Set up build environment
   source build/envsetup.sh
