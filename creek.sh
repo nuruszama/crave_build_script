@@ -73,35 +73,13 @@ crave run --projectID 93 --no-patch -- '
   done
   
   # applying patches
-  PATCH_DIR="device/xiaomi/creek/patches"
-  
-  if [ -d "$PATCH_DIR" ]; then
-      echo "=============================================="
-      echo "           Seasoning the Source"
-      echo "=============================================="
-      
-      # We use a standard for-loop to avoid pipe/subshell issues in Crave
-      # We use --batch to prevent the script from hanging on user prompts
-      # We use -N (forward) to skip patches that are already applied
-      for patch_file in $(ls "$PATCH_DIR"/*.patch 2>/dev/null | sort); do
-          patch_name=$(basename "$patch_file")
-          echo "Applying: $patch_name"
-
-          if patch -p1 --batch -N --fuzz=3 --ignore-whitespace < "$patch_file"; then
-              echo "[+] $patch_name applied successfully."
-          else
-              # If it fails because it's already applied, that's actually fine
-              if patch -p1 -R -C --batch < "$patch_file" >/dev/null 2>&1; then
-                  echo "[~] $patch_name already applied. Skipping."
-              else
-                  echo "[-] $patch_name FAILED (Real conflict)!"
-                  find . -name "*.rej" -exec cat {} +
-                  exit 1
-              fi
-          fi
-      done
-  else
-      echo "[-] No patch directory found at $PATCH_DIR. Skipping."
+  echo "=============================================="
+  echo "           Seasoning the Source"
+  echo "=============================================="
+  # Check if the logic is already there to avoid double-appending
+  if ! grep -q "UM 4.19 upgraded to UM 5.15" hardware/qcom-caf/common/qcom_defs.mk; then
+      echo -e "\nifeq (\$(TARGET_KERNEL_VERSION),5.15)\n#UM 4.19 upgraded to UM 5.15\nUM_5_15_FAMILY := \$(UM_5_15_FAMILY) \$(UM_4_19_FAMILY)\nUM_4_19_FAMILY :=\nendif" >> hardware/qcom-caf/common/qcom_defs.mk
+      echo "[+] Manually added 5.15 upgrade logic"
   fi
   
   # Set up build environment
