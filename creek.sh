@@ -111,6 +111,7 @@ echo "=============================================="
 # 5. Post-Build Logic (Local Machine)
 if [ $EXIT_STATUS -eq 0 ]; then
     # SUCCESS
+    crave run --projectID 93 -- 'curl -sL https://git.io/file-transfer | sh && ./transfer wet out/target/product/creek/lineage-*.zip'
     echo "Build Completed.. zip file ready to download......."
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
         -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
