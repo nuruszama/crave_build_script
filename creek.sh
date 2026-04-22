@@ -27,6 +27,7 @@ crave run --projectID 93 --no-patch -- '
     hardware/qcom-caf/*
     device/xiaomi/*
     vendor/xiaomi/*
+    vendor/qcom/*
   )
 
   # Efficiently remove all of them
