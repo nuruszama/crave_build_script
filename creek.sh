@@ -74,12 +74,17 @@ crave run --projectID 93 --no-patch -- '
   
   # applying patches
   echo "=============================================="
-  echo "           Seasoning the Source"
+  echo "               Seasoning the Source"
   echo "=============================================="
-  # Check if the logic is already there to avoid double-appending
-  if ! grep -q "UM 4.19 upgraded to UM 5.15" hardware/qcom-caf/common/qcom_defs.mk; then
-      echo -e "\nifeq (\$(TARGET_KERNEL_VERSION),5.15)\n#UM 4.19 upgraded to UM 5.15\nUM_5_15_FAMILY := \$(UM_5_15_FAMILY) \$(UM_4_19_FAMILY)\nUM_4_19_FAMILY :=\nendif" >> hardware/qcom-caf/common/qcom_defs.mk
-      echo "[+] Manually added 5.15 upgrade logic"
+  
+  PATCH_SCRIPT="device/xiaomi/creek-kernel/patches.sh"
+  
+  if [ -f "$PATCH_SCRIPT" ]; then
+      echo "[*] Found device-specific patch script. Executing..."
+      bash "$PATCH_SCRIPT"
+  else
+      echo "[!] ERROR: Patch script not found at $PATCH_SCRIPT"
+      # You might want to exit 1 here if the patches are critical
   fi
   
   # Set up build environment
