@@ -24,6 +24,7 @@ crave run --projectID 93 --no-patch -- '
   remove=(
     out/soong
     out/target/product/creek
+    hardware/qcom-caf/*
     device/xiaomi/creek
     vendor/xiaomi/creek
     vendor/xiaomi/miuicamera
