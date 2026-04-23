@@ -75,17 +75,17 @@ crave run --projectID 93 --no-patch -- '
   
   # applying patches
   echo "=============================================="
-  echo "               Seasoning the Source"
+  echo "             Seasoning the Source"
   echo "=============================================="
   
   PATCH_SCRIPT="device/xiaomi/creek-kernel/patches.sh"
   
   if [ -f "$PATCH_SCRIPT" ]; then
-      echo "[*] Found device-specific patch script. Executing..."
+      echo "[*] Running Creek kernel patch pipeline..."
       bash "$PATCH_SCRIPT"
   else
-      echo "[!] ERROR: Patch script not found at $PATCH_SCRIPT"
-      # You might want to exit 1 here if the patches are critical
+      echo "[!] Patch pipeline not found!"
+      exit 1
   fi
   
   # Set up build environment
