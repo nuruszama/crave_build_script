@@ -43,8 +43,7 @@ crave run --projectID 93 --no-patch -- '
   echo "=============================================="
 
   # ROM source repo
-  # repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
-  repo init -u https://github.com/LineageOS/android.git -b lineage-22.2 --git-lfs
+  repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
   echo "=============================================="
   echo "              Filling Buffets"
   echo "=============================================="
@@ -79,15 +78,15 @@ crave run --projectID 93 --no-patch -- '
   echo "             Seasoning the Source"
   echo "=============================================="
   
-#  PATCH_SCRIPT="device/xiaomi/creek-kernel/patches.sh"
-#  
-#  if [ -f "$PATCH_SCRIPT" ]; then
-#      echo "[*] Running Creek kernel patch pipeline..."
-#      bash "$PATCH_SCRIPT"
-#  else
-#      echo "[!] Patch pipeline not found!"
-#      exit 1
-#  fi
+  PATCH_SCRIPT="device/xiaomi/creek-kernel/patches.sh"
+  
+  if [ -f "$PATCH_SCRIPT" ]; then
+      echo "[*] Running Creek kernel patch pipeline..."
+      bash "$PATCH_SCRIPT"
+  else
+      echo "[!] Patch pipeline not found!"
+      exit 1
+  fi
   
   # Set up build environment
   source build/envsetup.sh
