@@ -1,20 +1,15 @@
 #!/bin/bash
 # Load your local secrets
 source .env
-rm -rf post-log.txt
 
-# 1. Local Queue Notification
+# Local Queue Notification
 echo "[$(date +%T)] Starting Minimal Boot Build..."
 curl -s -o /dev/null -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
   -d chat_id="${TG_CHAT}" \
   -d parse_mode="HTML" \
   -d text="🛠 <b>Attempting Minimal Boot Build</b>"
 
-# 2. Capture all output to log
-TMP_LOG="creek-build-log.txt"
-exec > >(tee -a "$TMP_LOG") 2>&1
-
-# 3. The Crave Run Command
+# The Crave Run Command
 crave run --projectID 93 --no-patch -- '
   echo "=============================================="
   echo "           Minimal Boot Creek Build"
