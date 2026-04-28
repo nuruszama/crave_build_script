@@ -1,14 +1,24 @@
 #!/bin/bash
-
-# Load env
+# Load your local secrets
 source .env
+rm -rf post-log.txt
 
+# 1. Local Queue Notification
 echo "[$(date +%T)] Starting Minimal Boot Build..."
+curl -s -o /dev/null -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+  -d chat_id="${TG_CHAT}" \
+  -d parse_mode="HTML" \
+  -d text="🛠 <b>Attempting Minimal Boot Build</b>"
 
+# 2. Capture all output to log
+TMP_LOG="creek-build-log.txt"
+exec > >(tee -a "$TMP_LOG") 2>&1
+
+# 3. The Crave Run Command
 crave run --projectID 93 --no-patch -- '
-  echo "================================="
-  echo "     Minimal Creek Boot Build"
-  echo "================================="
+  echo "=============================================="
+  echo "           Minimal Boot Creek Build"
+  echo "=============================================="
   
   # List the specific folders that cause issues for creek
   remove=(
@@ -28,41 +38,59 @@ crave run --projectID 93 --no-patch -- '
 
   # Remove local manifests
   rm -rf .repo/local_manifests/
+  echo "=============================================="
+  echo "           Removing Local Manifest"
+  echo "=============================================="
   
   # ROM source repo
   repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
+  echo "=============================================="
+  echo "              LOS Repo initiated"
+  echo "=============================================="
 
   # Clone local_manifests repository
   git clone https://github.com/nuruszama/local_manifest.git -b minimal-boot .repo/local_manifests
+  echo "=============================================="
+  echo "          Cloned local_manifest.xml"
+  echo "=============================================="
 
   # Sync
   /opt/crave/resync.sh
+  echo "=============================================="
+  echo "              Repo Sync Completed"
+  echo "=============================================="
 
   # Env setup
   source build/envsetup.sh
 
+  echo "=============================================="
+  echo "             Placing Lunch Menu"
+  echo "=============================================="
+  
   # Lunch
   lunch lineage_creek-trunk_staging-userdebug
 
-  # Clean intermediates only
+  # Make clean install
   make installclean
 
-  echo "================================="
-  echo "      Building bootimage ONLY"
-  echo "================================="
-
-  # ONLY build boot image
-  mka bootimage'
+  echo "=============================================="
+  echo "        initiating build sequence"
+  echo "=============================================="
+  mka bacon'
 
 EXIT_STATUS=$?
-echo "Build finished with status: $EXIT_STATUS"
+echo "EXIT_STATUS: $EXIT_STATUS"
+
+echo "=============================================="
+echo "                  Winding up"
+echo "=============================================="
 
 if [ $EXIT_STATUS -eq 0 ]; then
     # SUCCESS
     crave run --projectID 93 -- 'curl -s -X POST "https://api.telegram.org/bot'"$TG_TOKEN"'/sendDocument" \
       -F chat_id="'"$TG_CHAT"'" \
       -F document=@"out/target/product/creek/boot.img '
-    echo "Build Completed.. boot.img ready to test......."
+    echo "Build Completed.. Ready to test......."
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
         -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
         -d text="✅ <b>Build Success!</b>%0A📦"
