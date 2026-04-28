@@ -16,7 +16,7 @@ crave run --projectID 93 --no-patch -- '
 
   # Local manifests
   rm -rf .repo/local_manifests
-  git clone https://github.com/nuruszama/local_manifest.git -b main .repo/local_manifests
+  git clone https://github.com/nuruszama/local_manifest.git -b minimal-boot .repo/local_manifests
 
   # Sync
   /opt/crave/resync.sh
@@ -35,8 +35,7 @@ crave run --projectID 93 --no-patch -- '
   echo "================================="
 
   # 🔥 ONLY build boot image
-  mka bootimage
-  mka systemimage'
+  mka bootimage'
 
 EXIT_STATUS=$?
 echo "Build finished with status: $EXIT_STATUS"
