@@ -9,13 +9,30 @@ crave run --projectID 93 --no-patch -- '
   echo "================================="
   echo "     Minimal Creek Boot Build"
   echo "================================="
+  
+  # List the specific folders that cause issues for creek
+  remove=(
+    out/soong
+    out/target/product/creek
+    hardware/qcom-caf/*
+    device/xiaomi/*
+    vendor/xiaomi/*
+    vendor/qcom/opensource/*
+  )
 
-  # Clean only what matters
-  rm -rf out/target/product/creek
+  # Efficiently remove all of them
+  for folder in "${remove[@]}"; do
+      rm -rf "$folder"
+      echo "    Cleaned: $folder"
+  done
+
+  # Remove local manifests
+  rm -rf .repo/local_manifests/
+  
+  # ROM source repo
   repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
 
-  # Local manifests
-  rm -rf .repo/local_manifests
+  # Clone local_manifests repository
   git clone https://github.com/nuruszama/local_manifest.git -b minimal-boot .repo/local_manifests
 
   # Sync
@@ -34,7 +51,7 @@ crave run --projectID 93 --no-patch -- '
   echo "      Building bootimage ONLY"
   echo "================================="
 
-  # 🔥 ONLY build boot image
+  # ONLY build boot image
   mka bootimage'
 
 EXIT_STATUS=$?
