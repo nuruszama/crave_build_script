@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Load env
+# Load env
 source .env
 
 echo "[$(date +%T)] Starting Minimal Boot Build..."
