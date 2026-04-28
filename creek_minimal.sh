@@ -87,13 +87,10 @@ echo "=============================================="
 
 if [ $EXIT_STATUS -eq 0 ]; then
     # SUCCESS
-    crave run --projectID 93 -- 'curl -s -X POST "https://api.telegram.org/bot'"$TG_TOKEN"'/sendDocument" \
-      -F chat_id="'"$TG_CHAT"'" \
-      -F document=@"out/target/product/creek/boot.img '
     echo "Build Completed.. Ready to test......."
     curl -s -o /dev/null -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
         -d chat_id="$TG_CHAT" -d parse_mode="HTML" \
-        -d text="✅ <b>Build Success!</b>%0A📦"
+        -d text="✅ <b>Build Completed..! Ready to test.......</b>%0A📦"
 
 elif [ $EXIT_STATUS -eq 130 ]; then
     # CANCELLED BY USER
