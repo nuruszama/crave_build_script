@@ -17,12 +17,8 @@ crave run --projectID 93 --no-patch -- '
   
   # List the specific folders that cause issues for creek
   remove=(
-    out/soong
-    out/target/product/creek
-    hardware/qcom-caf/*
     device/xiaomi/*
     vendor/xiaomi/*
-    vendor/qcom/opensource/*
   )
 
   # Efficiently remove all of them
