@@ -11,9 +11,9 @@ curl -s -o /dev/null -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessag
 
 # The Crave Run Command
 crave run --projectID 93 --no-patch -- '
-  echo "=============================================="
-  echo "           Minimal Boot Creek Build"
-  echo "=============================================="
+  echo "============================================"
+  echo "          Minimal Boot Creek Build"
+  echo "============================================"
   
   # List the specific folders that cause issues for creek
   remove=(
@@ -29,34 +29,30 @@ crave run --projectID 93 --no-patch -- '
 
   # Remove local manifests
   rm -rf .repo/local_manifests/
-  echo "=============================================="
-  echo "           Removing Local Manifest"
-  echo "=============================================="
+  echo "============================================"
+  echo "          Removing Local Manifest"
+  echo "============================================"
   
   # ROM source repo
   repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
-  echo "=============================================="
-  echo "              LOS Repo initiated"
-  echo "=============================================="
+  echo "============================================"
+  echo "             LOS Repo initiated"
+  echo "============================================"
 
   # Clone local_manifests repository
   git clone https://github.com/nuruszama/local_manifest.git -b minimal-boot .repo/local_manifests
-  echo "=============================================="
+  echo "============================================"
   echo "          Cloned local_manifest.xml"
-  echo "=============================================="
+  echo "============================================"
 
   # Sync
   /opt/crave/resync.sh
-  echo "=============================================="
-  echo "              Repo Sync Completed"
-  echo "=============================================="
+  echo "============================================"
+  echo "             Repo Sync Completed"
+  echo "============================================"
 
   # Env setup
   source build/envsetup.sh
-
-  echo "=============================================="
-  echo "             Placing Lunch Menu"
-  echo "=============================================="
   
   # Lunch
   lunch lineage_creek-trunk_staging-userdebug
@@ -64,17 +60,17 @@ crave run --projectID 93 --no-patch -- '
   # Make clean install
   make installclean
 
-  echo "=============================================="
-  echo "        initiating build sequence"
-  echo "=============================================="
+  echo "============================================"
+  echo "         initiating build sequence"
+  echo "============================================"
   mka bacon'
 
 EXIT_STATUS=$?
 echo "EXIT_STATUS: $EXIT_STATUS"
 
-echo "=============================================="
-echo "                  Winding up"
-echo "=============================================="
+echo "============================================"
+echo "                Winding up"
+echo "============================================"
 
 if [ $EXIT_STATUS -eq 0 ]; then
     # SUCCESS
