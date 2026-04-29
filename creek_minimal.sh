@@ -17,6 +17,7 @@ crave run --projectID 93 --no-patch -- '
   
   # List the specific folders that cause issues for creek
   remove=(
+    out/target/product/creek/lineage-*.zip
     device/xiaomi/*
     vendor/xiaomi/*
   )
