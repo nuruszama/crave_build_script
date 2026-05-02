@@ -64,7 +64,8 @@ crave run --projectID 93 --no-patch -- '
   echo "============================================"
   echo "         initiating build sequence"
   echo "============================================"
-  mka bacon'
+  mka bootimage'
+#  mka bacon'
 
 EXIT_STATUS=$?
 echo "EXIT_STATUS: $EXIT_STATUS"
