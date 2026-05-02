@@ -11,6 +11,9 @@ LOCAL_OUT_DIR="build_out"
 rm -rf $LOCAL_OUT_DIR
 mkdir -p $LOCAL_OUT_DIR
 
+echo "--- Checking files ---"
+ls -l out/target/product/creek/*.img
+
 echo "--- Pulling files from out folder ---"
 
 # 1. Pull the static images
