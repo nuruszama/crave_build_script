@@ -15,6 +15,7 @@ FILES=(
     "vendor_boot.img"
     "recovery.img"
     "dtbo.img"
+    "system.img"
 )
 
 rm -rf $LOCAL_OUT_DIR
