@@ -64,7 +64,7 @@ crave run --projectID 93 --no-patch -- '
   echo "============================================"
   echo "         initiating build sequence"
   echo "============================================"
-  mka bootimage init_bootimage recoveryimage systemimage'
+  mka bootimage initbootimage recoveryimage systemimage'
 #  mka bacon'
 
 EXIT_STATUS=$?
