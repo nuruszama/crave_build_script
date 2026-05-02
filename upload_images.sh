@@ -8,31 +8,16 @@ PRODUCT="creek"
 OUT_DIR="out/target/product/$PRODUCT"
 LOCAL_OUT_DIR="build_out"
 
-# List of files we are looking for
-FILES=(
-    "boot.img"
-    "init_boot.img"
-    "vendor_boot.img"
-    "recovery.img"
-    "dtbo.img"
-    "system.img"
-)
-
 rm -rf $LOCAL_OUT_DIR
 mkdir -p $LOCAL_OUT_DIR
 
 echo "--- Pulling files from out folder ---"
 
 # 1. Pull the static images
-for FILE in "${FILES[@]}"; do
-    if [ -f "$OUT_DIR/$FILE" ]; then
-        echo "Found $FILE, pulling..."
-        crave pull "$OUT_DIR/$FILE" "$LOCAL_OUT_DIR/"
-    fi
-done
+crave pull "$OUT_DIR/$FILE" "$LOCAL_OUT_DIR/"
 
 # 2. Pull the Lineage ZIP (using wildcard)
-crave pull $OUT_DIR/lineage-*.zip "$LOCAL_OUT_DIR/" 2>/dev/null
+crave pull $OUT_DIR/lineage-*.zip "$LOCAL_OUT_DIR/"
 
 echo "--- Starting Telegram Upload ---"
 
