@@ -14,10 +14,10 @@ mkdir -p $LOCAL_OUT_DIR
 echo "--- Pulling files from out folder ---"
 
 # 1. Pull the static images
-crave pull "$OUT_DIR/$FILE" "$LOCAL_OUT_DIR/"
+crave pull $OUT_DIR/*.img $LOCAL_OUT_DIR/
 
 # 2. Pull the Lineage ZIP (using wildcard)
-crave pull $OUT_DIR/lineage-*.zip "$LOCAL_OUT_DIR/"
+crave pull $OUT_DIR/lineage-*.zip $LOCAL_OUT_DIR/
 
 echo "--- Starting Telegram Upload ---"
 
