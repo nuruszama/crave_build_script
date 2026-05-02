@@ -27,12 +27,12 @@ echo "--- Pulling files from out folder ---"
 for FILE in "${FILES[@]}"; do
     if [ -f "$OUT_DIR/$FILE" ]; then
         echo "Found $FILE, pulling..."
-        cp "$OUT_DIR/$FILE" "$LOCAL_OUT_DIR/"
+        crave pull "$OUT_DIR/$FILE" "$LOCAL_OUT_DIR/"
     fi
 done
 
 # 2. Pull the Lineage ZIP (using wildcard)
-cp $OUT_DIR/lineage-*.zip "$LOCAL_OUT_DIR/" 2>/dev/null
+crave pull $OUT_DIR/lineage-*.zip "$LOCAL_OUT_DIR/" 2>/dev/null
 
 echo "--- Starting Telegram Upload ---"
 
