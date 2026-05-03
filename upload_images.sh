@@ -6,38 +6,54 @@ source .env
 # --- CONFIGURATION ---
 PRODUCT="creek"
 OUT_DIR="out/target/product/$PRODUCT"
-LOCAL_OUT_DIR="build_out"
-
-rm -rf $LOCAL_OUT_DIR
-mkdir -p $LOCAL_OUT_DIR
 
 echo "--- Checking files ---"
-ls -l out/target/product/creek/*.img
 
-echo "--- Pulling files from out folder ---"
+# 1. Capture the filenames only (not the full 'ls -l' details)
+# We use 'basename' to keep the message clean
+img_files=$(ls $OUT_DIR/*.img 2>/dev/null | xargs -n 1 basename)
 
-# 1. Pull the static images
-crave pull $OUT_DIR/*.img $LOCAL_OUT_DIR/
+# 2. Check if any files were actually found
+if [ -z "$img_files" ]; then
+    msg_text="<b>No image files found to upload.</b>"
+else
+    # Format the list with bullet points for Telegram
+    file_list=$(echo "$img_files" | sed 's/^/• /')
+    msg_text="<b>🚀 Uploading image files:</b>%0A${file_list}"
+fi
 
-# 2. Pull the Lineage ZIP (using wildcard)
-crave pull $OUT_DIR/lineage-*.zip $LOCAL_OUT_DIR/
+# 3. Update available image files to telegram
+curl -s -o /dev/null -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+  -d chat_id="${TG_CHAT}" \
+  -d parse_mode="HTML" \
+  -d text="${msg_text}"
 
 echo "--- Starting Telegram Upload ---"
 
 # Function to upload to Telegram
 upload_to_tg() {
     local file_path=$1
-    echo "Uploading $(basename "$file_path")..."
+    local file_name=$(basename "$file_path")
+    
+    echo "Uploading $file_name..."
+    
+    # Use -v for debugging if it fails, or keep -s for clean output
     curl -F document=@"$file_path" \
-         "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument?chat_id=${CHAT_ID}" \
+         "https://api.telegram.org/bot${TOKEN}/sendDocument?chat_id=${CHAT}" \
          -o /dev/null -s
+         
+    if [ $? -eq 0 ]; then
+        echo "Successfully uploaded $file_name"
+    else
+        echo "Failed to upload $file_name"
+    fi
 }
 
-# Iterate through files in devspace and upload
-for ENTRY in "$LOCAL_OUT_DIR"/*; do
-    if [ -f "$ENTRY" ]; then
-        upload_to_tg "$ENTRY"
-        echo "Done."
+# 4. Iterate through files and upload
+# We loop specifically for .img files to avoid uploading logs or random files
+for IMG in "$OUT_DIR"/*.img; do
+    if [ -f "$IMG" ]; then
+        upload_to_tg "$IMG"
     fi
 done
 
