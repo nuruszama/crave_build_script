@@ -34,15 +34,14 @@ echo "--- Starting Telegram Upload ---"
 upload_to_tg() {
     local file_path=$1
     local file_name=$(basename "$file_path")
-    local file="$OUT_DIR/$file_name"
-    echo "Uploading $file_name..."
+    local FILE="$OUT_DIR/$file_name"
     
-    # Use -v for debugging if it fails, or keep -s for clean output
-    curl -F document=@"$file" \
-         "https://api.telegram.org/bot${TOKEN}/sendDocument?chat_id=${CHAT}" \
-         -o /dev/null -s
-         
-    if [ $? -eq 0 ]; then
+    echo "Uploading $FILE..."
+    
+    # Checking upload status
+    if curl -s -f -F chat_id="$TG_CHAT" \
+        -F document=@"$FILE" \
+        "https://api.telegram.org/bot$TG_TOKEN/sendDocument"; then
         echo "Successfully uploaded $file_name"
     else
         echo "Failed to upload $file_name"
