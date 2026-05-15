@@ -110,12 +110,17 @@ on_fail() {
 
 # ================= BUILD START =================
 tg_send "┌───────────────────┐
-🤖 *Buildbot* initialized for
-🛸 *${ROM_NAME}*
+  📢      *Buildbot* initialized      📢
 └───────────────────┘
-🧩 *${DEVICE}* | *${ANDROID_VERSION}* | *${PROJECT_VERSION}*
-🧪 Type: *${BUILD_TYPE}*
-🍦 Flavour: *${BUILD_FLAVOUR}*
+
+
+      🧬 *${PROJECT_VERSION}*     🧩 *${DEVICE}*
+
+
+ Android Version     :  *${ANDROID_VERSION}*
+ Build Type               :  *${BUILD_TYPE}*
+ Flavor                       :  *${BUILD_FLAVOUR}*
+
 🌏 _$(date +"%d %b %Y %I:%M %p GST")_"
 
 # ================= BUILD =================

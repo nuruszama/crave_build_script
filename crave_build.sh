@@ -42,9 +42,6 @@ RANDOM_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
 # Build Queue notification
 send_telegram "$RANDOM_MSG"
 
-# Push the .env file to the root of the Crave workspace
-crave push .env -d /tmp/src/android
-
 # Run your GitHub-hosted script
 echo "🚀 Starting remote build queue..."
 crave run --projectID 93 --no-patch -- 'curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/crave_run.sh | bash'

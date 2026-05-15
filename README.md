@@ -36,8 +36,11 @@ GITHUB="your_github_token"
 ###. Running a Build
 To start a build for the POCO M7 (**creek**), execute the following command in your terminal:
 
+
+# Push the .env file to the root of the Crave workspace
 ```bash
-crave run --projectID 93 --no-patch -- 'curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/crave_run.sh | bash'
+crave push .env -d /tmp/src/android
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/blob/main/crave_build.sh | bash
 ```
 
 ---
