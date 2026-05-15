@@ -1,5 +1,6 @@
 ROM_NAME="lineage"
 DEVICE="creek"
+RELEASE="trunk_staging"
 BUILD_TYPE="userdebug"
 BUILD_FLAVOUR="vanilla"
 ANDROID_VERSION="v16 QPR2"
