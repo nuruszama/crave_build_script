@@ -113,13 +113,12 @@ tg_send "┌───────────────────┐
   📢      *Buildbot* initialized      📢
 └───────────────────┘
 
-
       🧬 *${PROJECT_VERSION}*     🧩 *${DEVICE}*
 
-
- Android Version     :  *${ANDROID_VERSION}*
- Build Type               :  *${BUILD_TYPE}*
- Flavor                       :  *${BUILD_FLAVOUR}*
+ *Android Version:  ${ANDROID_VERSION}*
+ *Build Type:  ${BUILD_TYPE}*
+ *Release:  ${RELEASE}
+ *Flavor:  ${BUILD_FLAVOUR}*
 
 🌏 _$(date +"%d %b %Y %I:%M %p GST")_"
 
@@ -171,7 +170,7 @@ echo ">>>> [STEP] Set up build environment"
 source build/envsetup.sh
 
 echo ">>>> [STEP] Lunch"
-lunch ${ROM_NAME}_${DEVICE}_${BUILD_TYPE}
+lunch ${ROM_NAME}_${DEVICE}-${RELEASE}-${BUILD_TYPE}
 export BUILD_USERNAME=nuruszama
 export BUILD_HOSTNAME=arch
 make installclean
