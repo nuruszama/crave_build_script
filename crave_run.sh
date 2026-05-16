@@ -117,7 +117,7 @@ tg_send "┌───────────────────┐
 
  *Android Version:  ${ANDROID_VERSION}*
  *Build Type:  ${BUILD_TYPE}*
- *Release:  ${RELEASE}
+ *Release:  ${RELEASE}*
  *Flavor:  ${BUILD_FLAVOUR}*
 
 🌏 _$(date +"%d %b %Y %I:%M %p GST")_"
