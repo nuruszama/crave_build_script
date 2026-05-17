@@ -32,6 +32,9 @@ send_telegram() {
 curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/lineage-23.2/build_config.sh -o build_config.sh
 source build_config.sh
 
+echo ">>>DEVICE=${DEVICE}"
+echo ">>>BRANCH=${BRANCH}"
+
 # Fetch and load the funny messages from another file
 curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/${BRANCH}/messages.sh -o messages.sh
 source messages.sh
