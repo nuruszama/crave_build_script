@@ -29,7 +29,7 @@ TG_CHAT="your_telegram_chat_id"
 PIXELDRAIN="your_pixeldrain_api_key"
 ```
 **TG_TOKEN** will be used to integrate your telegram bot to your script.
-**TG_CHAT** is the telegram chat_id to which you want to send telegram notifications
+**TG_CHAT** is the telegram chat_id to which you want to send telegram notifications.
 **PIXELDRAIN** is your pixeldrain api. This is required to upload your files from the crave out after successful build.
 
 ### 3. Setting Build Configurations
@@ -53,14 +53,17 @@ curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/blob/li
 ```
 Don't forget to replace the above script link with your own.
 
-# Push the .env file to the root of the Crave workspace
+---
+
+## Push the .env file to the root of the Crave workspace
 Additionally, you can push your .env file to crave server/workspace using the following script
 ```
 crave push .env -d /tmp/src/android
 ```
+
 ---
 
-## 🤝 Credits
+# 🤝 Credits
 
 A huge thanks to the original author for the foundation of these scripts:
 
