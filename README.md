@@ -28,9 +28,9 @@ TG_TOKEN="your_telegram_bot_token"
 TG_CHAT="your_telegram_chat_id"
 PIXELDRAIN="your_pixeldrain_api_key"
 ```
-**TG_TOKEN** will be used to integrate your telegram bot to your script.
-**TG_CHAT** is the telegram chat_id to which you want to send telegram notifications.
-**PIXELDRAIN** is your pixeldrain api. This is required to upload your files from the crave out after successful build.
+*   **TG_TOKEN** will be used to integrate your telegram bot to your script.
+*   **TG_CHAT** is the telegram chat_id to which you want to send telegram notifications.
+*   **PIXELDRAIN** is your pixeldrain api. This is required to upload your files from the crave out after successful build.
 
 ### 3. Setting Build Configurations
 By editing the **build_config.sh**, you can change the container time zone to your timezone, define the basic details of your build.
