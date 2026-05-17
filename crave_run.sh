@@ -14,99 +14,9 @@ set -o allexport
 source .env
 set +o allexport
 
-# ================= TIMEZONE =================
-echo "🕒 Switching system timezone to Gulf Standard Time"
-sudo rm -f /etc/localtime
-sudo ln -s /usr/share/zoneinfo/Asia/Dubai /etc/localtime
-echo "🕒 Current system time: $(date)"
-
-# ================= JQ =================
-if ! command -v jq &> /dev/null; then
-    mkdir -p ~/bin
-    curl -L -o ~/bin/jq https://github.com/jqlang/jq/releases/download/jq-1.7/jq-linux64
-    chmod +x ~/bin/jq
-    export PATH=$HOME/bin:$PATH
-fi
-
 # ================= CONFIGS =================
-curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/build_config.sh -o build_config.sh
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/lineage-23.2/build_config.sh -o build_config.sh
 source build_config.sh
-
-OUT_DIR="out/target/product/${DEVICE}"
-START_TIME=$(date +%s)
-BUILD_LOG="build.log"
-ERROR_LOG="out/error.log"
-
-# ================= TELEGRAM =================
-tg_send() {
-    curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
-        --data-urlencode "chat_id=${TG_CHAT}" \
-        --data-urlencode "parse_mode=Markdown" \
-        --data-urlencode "disable_web_page_preview=true" \
-        --data-urlencode "text=$1" >/dev/null
-}
-
-tg_upload() {
-    curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
-        --data-urlencode "chat_id=${TG_CHAT}" \
-        --data-urlencode "parse_mode=Markdown" \
-        --data-urlencode "disable_web_page_preview=true" \
-        --data-urlencode "text=$1" >/dev/null
-}
-
-# ================= PIXELDRAIN =================
-pixeldrain_upload() {
-    local FILE="$1"
-
-    if [ -f "$FILE" ]; then
-        RESPONSE=$(curl -s -u ":$PIXELDRAIN" -F "file=@$FILE" https://pixeldrain.com/api/file)
-        FILE_ID=$(echo "$RESPONSE" | jq -r '.id')
-
-        if [[ "$FILE_ID" != "null" && -n "$FILE_ID" ]]; then
-            echo "https://pixeldrain.com/u/$FILE_ID"
-            return
-        fi
-    fi
-
-    return 1
-}
-
-# ================= GOFILE =================
-gofile_upload() {
-    local FILE="$1"
-
-    mapfile -t SERVERS < <(curl -s https://api.gofile.io/servers | jq -r '.data.servers[].name')
-
-    for S in $(printf "%s\n" "${SERVERS[@]}" | shuf); do
-        RESP=$(curl -s -F "file=@${FILE}" "https://${S}.gofile.io/uploadFile")
-        LINK=$(echo "$RESP" | jq -r '.data.downloadPage // empty')
-
-        if [ -n "$LINK" ]; then
-            echo "$LINK"
-            return
-        fi
-    done
-
-    return 1
-}
-
-# ================= FAIL =================
-on_fail() {
-    tg_send "💥 *Bacon burned*
-📜 Uploading logs…"
-
-    LOG_MSG="╭─ 📜 LOGS"
-
-    [ -f "$ERROR_LOG" ] && LOG_MSG="${LOG_MSG}
-⋄ [Error Log]($(gofile_upload "$ERROR_LOG"))"
-
-    [ -f "$BUILD_LOG" ] && LOG_MSG="${LOG_MSG}
-⋄ [Build Log]($(gofile_upload "$BUILD_LOG"))"
-
-    tg_upload "${LOG_MSG}"
-
-    exit 1
-}
 
 # ================= BUILD START =================
 tg_send "┌───────────────────┐
@@ -127,6 +37,7 @@ echo ">>>> [STEP] Clean"
 # List the specific folders that cause issues for creek
 remove=(
     .repo/local_manifests
+    hardware/qcom-caf/common
     hardware/qcom-caf/sm6225/*
     device/xiaomi/*
     vendor/xiaomi/*
@@ -141,10 +52,10 @@ for folder in "${remove[@]}"; do
 done
 
 echo ">>>> [STEP] Repo Init"
-repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
+repo init -u https://github.com/LineageOS/android.git -b ${BRANCH} --git-lfs
 
 echo ">>>> [STEP] Local Manifests"
-git clone https://github.com/nuruszama/local_manifest.git -b main .repo/local_manifests
+git clone https://github.com/nuruszama/crave_build_scripts.git -b ${BRANCH} .repo/local_manifests
 
 echo ">>>> [STEP] Repo Sync"
 SYNC_START=$(date +%s)
@@ -156,7 +67,7 @@ else
 fi
 
 rm -rf hardware/qcom-caf/common
-git clone https://github.com/sapphire-sm6225/android_hardware_qcom-caf_common.git -b lineage-23.2 hardware/qcom-caf/common
+git clone https://github.com/sapphire-sm6225/android_hardware_qcom-caf_common.git -b ${BRANCH} hardware/qcom-caf/common
 
 SYNC_END=$(date +%s)
 SYNC_DIFF=$((SYNC_END - SYNC_START))
