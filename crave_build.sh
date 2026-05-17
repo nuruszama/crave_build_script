@@ -29,7 +29,7 @@ send_telegram() {
 }
 
 # Load build configurations
-curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/lineage23.2/build_config.sh -o build_config.sh
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/lineage-23.2/build_config.sh -o build_config.sh
 source build_config.sh
 
 # Fetch and load the funny messages from another file
