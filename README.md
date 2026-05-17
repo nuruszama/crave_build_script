@@ -1,5 +1,4 @@
 # Crave Custom ROM Build Scripts 🚀
-Instruction is still under maintenance.. will be updated soon.
 
 This repository contains highly automated build scripts optimized for building custom Android ROMs (specifically LineageOS) using the **Crave.io** build environment. 
 
@@ -27,22 +26,38 @@ Create a `.env` file in your project root. **Never commit this file to GitHub.**
 ```env
 TG_TOKEN="your_telegram_bot_token"
 TG_CHAT="your_telegram_chat_id"
-UPLOAD="your_telegram_log_channel_id"
 PIXELDRAIN="your_pixeldrain_api_key"
-GITHUB="your_github_token"
+```
+**TG_TOKEN** will be used to integrate your telegram bot to your script.
+**TG_CHAT** is the telegram chat_id to which you want to send telegram notifications
+**PIXELDRAIN** is your pixeldrain api. This is required to upload your files from the crave out after successful build.
+
+### 3. Setting Build Configurations
+By editing the **build_config.sh**, you can change the container time zone to your timezone, define the basic details of your build.
+
+### 4. Adding custom messages for queue notification
+The script uses random messages in telegram to notify the users that the build has been successfully queued. If you required to edit or add any custom messages of your own, you can do the same by editing messages.sh.
+Minimal messages.sh looks like
+```
+MESSAGES=(
+"<Your
+Custom
+Message>"
+)
 ```
 
-
-###. Running a Build
-To start a build for the POCO M7 (**creek**), execute the following command in your terminal:
-
+### 5. Running the Build
+To start a build inside the crave, execute the following command in your crave-devspaces terminal:
+```
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/blob/lineage-23.2/crave_build.sh | bash
+```
+Don't forget to replace the above script link with your own.
 
 # Push the .env file to the root of the Crave workspace
-```bash
-crave push .env -d /tmp/src/android
-curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/blob/main/crave_build.sh | bash
+Additionally, you can push your .env file to crave server/workspace using the following script
 ```
-
+crave push .env -d /tmp/src/android
+```
 ---
 
 ## 🤝 Credits
@@ -50,4 +65,5 @@ curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/blob/mai
 A huge thanks to the original author for the foundation of these scripts:
 
 *   **[EternalMikaelson](https://github.com/EternalMikaelson)** - For the original script architecture, automated workflow logic, and Telegram integration.
-*   
+*   **[SoundDrill31](https://github.com/sounddrill31)** - For helping me to understand how to push the .env file to the workspace
+*   **[{⚡}crave.io](https://crave.io/)** - For giving the the free server to the developers who doesn't have a workspace 
