@@ -29,11 +29,11 @@ send_telegram() {
 }
 
 # Load build configurations
-curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/build_config.sh -o build_config.sh
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/lineage23.2/build_config.sh -o build_config.sh
 source build_config.sh
 
 # Fetch and load the funny messages from another file
-curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/messages.sh -o messages.sh
+curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/${BRANCH}/messages.sh -o messages.sh
 source messages.sh
 
 # Pick a random index
@@ -44,4 +44,4 @@ send_telegram "$RANDOM_MSG"
 
 # Run your GitHub-hosted script
 echo "🚀 Starting remote build queue..."
-crave run --projectID 93 --no-patch -- 'curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_script/main/crave_run.sh | bash'
+crave run --projectID 93 --no-patch -- 'curl -sf https://raw.githubusercontent.com/nuruszama/crave_build_scripts/${BRANCH}/crave_run.sh | bash'
