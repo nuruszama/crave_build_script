@@ -11,7 +11,7 @@ _System dependencies are being verified._"
 *ALL HANDS ON DECK!*
 
 ${DEVICE} is heading to the forge.
-We're cooking up that ${VERSION} goodness!"
+We're cooking up that ${PROJECT_VERSION} goodness!"
 
 "🙄 *[SARCASM]*
 
@@ -34,7 +34,7 @@ The ${DEVICE} build gods shall decide our fate."
 *Warning:* High levels of hopium detected.
 
 
-Building ${VERSION} for ${DEVICE}...
+Building ${PROJECT_VERSION} for ${DEVICE}...
 If this works, I'm retiring."
 
 "🥱 *[BORING]*
@@ -46,7 +46,7 @@ Processing... do not expect excitement."
 
 "🧪 *[THE ALCHEMIST]*
 
-Transmuting $VERSION code into ${DEVICE} blobs.
+Transmuting ${PROJECT_VERSION} code into ${DEVICE} blobs.
 
 _Equivalent exchange is required._
 
@@ -64,13 +64,13 @@ I'll be back when the 'out' folder exists."
 
 *LEEEEEROY JENKINS!*
 
-Forcing ${DEVICE} to compile ${VERSION}.
+Forcing ${DEVICE} to compile ${PROJECT_VERSION}.
 Hold onto your partitions!"
 
 "🦾 *[THE TERMINATOR]*
 
 *Target:* ${DEVICE}
-*Objective:* Compile ${VERSION}
+*Objective:* Compile ${PROJECT_VERSION}
 _I'll be back... when the zip is ready._"
 
 "🪄 *[HARRY POTTER]*
@@ -78,7 +78,7 @@ _I'll be back... when the zip is ready._"
 *Expecto Patronum!*
 
 
-Attempting to summon a working ${VERSION} build for ${DEVICE}.
+Attempting to summon a working ${PROJECT_VERSION} build for ${DEVICE}.
 
 _The wand (server) is choosing the wizard._"
 
@@ -89,7 +89,7 @@ _The wand (server) is choosing the wizard._"
 
 The ${DEVICE} source code is a mess.
 
-Compiling ${VERSION} anyway. Pray for me."
+Compiling ${PROJECT_VERSION} anyway. Pray for me."
 
 "🧘 *[ZEN]*
 
@@ -97,7 +97,7 @@ Compiling ${VERSION} anyway. Pray for me."
 
 The universe is aligning for ${DEVICE}.
 The pixels are forming.
-${VERSION} is inevitable."
+${PROJECT_VERSION} is inevitable."
 
 "🏴‍☠️ *[PIRATE]*
 
@@ -105,7 +105,7 @@ ${VERSION} is inevitable."
 
 We be sailin' the high seas of AOSP.
 
-Targetin' the ${DEVICE} port. Bring me that $VERSION booty!"
+Targetin' the ${DEVICE} port. Bring me that ${PROJECT_VERSION} booty!"
 
 "🎮 *[GAMER]*
 
@@ -118,7 +118,7 @@ Please do not turn off your console (server)."
 
 *Chef de Cuisine:* Crave Server
 *Special of the day:* ${DEVICE} stew
-*Seasoning:* Extra $VERSION kernels"
+*Seasoning:* Extra ${PROJECT_VERSION} kernels"
 
 "🛠 *[SERIOUS]*
 
