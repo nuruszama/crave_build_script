@@ -52,10 +52,10 @@ for folder in "${remove[@]}"; do
 done
 
 echo ">>>> [STEP] Repo Init"
-repo init -u https://github.com/LineageOS/android.git -b ${BRANCH} --git-lfs
+repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
 
 echo ">>>> [STEP] Local Manifests"
-git clone https://github.com/nuruszama/crave_build_scripts.git -b ${BRANCH} .repo/local_manifests
+git clone https://github.com/nuruszama/crave_build_scripts.git -b lineage-23.2 .repo/local_manifests
 
 echo ">>>> [STEP] Repo Sync"
 SYNC_START=$(date +%s)
@@ -67,7 +67,7 @@ else
 fi
 
 rm -rf hardware/qcom-caf/common
-git clone https://github.com/sapphire-sm6225/android_hardware_qcom-caf_common.git -b ${BRANCH} hardware/qcom-caf/common
+git clone https://github.com/sapphire-sm6225/android_hardware_qcom-caf_common.git -b lineage-23.2 hardware/qcom-caf/common
 
 SYNC_END=$(date +%s)
 SYNC_DIFF=$((SYNC_END - SYNC_START))
