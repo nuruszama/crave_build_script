@@ -55,7 +55,7 @@ echo ">>>> [STEP] Repo Init"
 repo init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
 
 echo ">>>> [STEP] Local Manifests"
-git clone https://github.com/nuruszama/crave_build_scripts.git -b lineage-23.2 .repo/local_manifests
+git clone https://github.com/nuruszama/local_manifest.git -b lineage-23.2 .repo/local_manifests
 
 echo ">>>> [STEP] Repo Sync"
 SYNC_START=$(date +%s)
